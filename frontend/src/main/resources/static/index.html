@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Symptom Checker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Animated background -->
+<div class="bg-grid"></div>
+<div class="pulse-ring ring1"></div>
+<div class="pulse-ring ring2"></div>
+<div class="pulse-ring ring3"></div>
+
+<!-- Header -->
+<header class="header">
+    <div class="logo">
+        <span class="logo-icon">🩺</span>
+        <span class="logo-text">Smart<strong>Symptom</strong>Checker</span>
+    </div>
+    <nav>
+        <button class="nav-btn active" onclick="showPage('checker')">Checker</button>
+        <button class="nav-btn" onclick="showPage('history')">History</button>
+        <button class="nav-btn" onclick="showPage('stats')">Stats</button>
+    </nav>
+</header>
+
+<!-- CHECKER PAGE -->
+<main id="page-checker" class="page active">
+    <div class="hero">
+        <h1 class="hero-title">How are you feeling today?</h1>
+        <p class="hero-sub">Select your symptoms and get instant health insights</p>
+    </div>
+
+    <div class="card-container">
+        <!-- Step 1: Patient Info -->
+        <div class="card step-card" id="step1">
+            <div class="step-badge">Step 1</div>
+            <h2>👤 Your Details</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="patientName" placeholder="Enter your name" class="input-field">
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="patientAge" placeholder="Age" class="input-field" min="1" max="120">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender" class="input-field">
+                        <option value="">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Duration</label>
+                    <select id="duration" class="input-field">
+                        <option value="Less than 1 day">Less than 1 day</option>
+                        <option value="1-3 days">1-3 days</option>
+                        <option value="3-7 days">3-7 days</option>
+                        <option value="More than 1 week">More than 1 week</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Symptoms -->
+        <div class="card step-card" id="step2">
+            <div class="step-badge">Step 2</div>
+            <h2>🤒 Select Your Symptoms</h2>
+            <p class="hint">Click all that apply to you right now</p>
+            <div class="symptom-grid" id="symptomGrid">
+                <!-- Loaded dynamically -->
+            </div>
+            <div class="custom-symptom">
+                <input type="text" id="customSymptom" placeholder="Add custom symptom..." class="input-field">
+                <button class="btn-add" onclick="addCustomSymptom()">+ Add</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Severity -->
+        <div class="card step-card" id="step3">
+            <div class="step-badge">Step 3</div>
+            <h2>📊 How severe is it?</h2>
+            <div class="severity-grid">
+                <div class="severity-card mild" onclick="selectSeverity('mild', this)">
+                    <div class="severity-emoji">😊</div>
+                    <div class="severity-label">Mild</div>
+                    <div class="severity-desc">Noticeable but manageable</div>
+                </div>
+                <div class="severity-card moderate" onclick="selectSeverity('moderate', this)">
+                    <div class="severity-emoji">😟</div>
+                    <div class="severity-label">Moderate</div>
+                    <div class="severity-desc">Affecting daily activities</div>
+                </div>
+                <div class="severity-card severe" onclick="selectSeverity('severe', this)">
+                    <div class="severity-emoji">😰</div>
+                    <div class="severity-label">Severe</div>
+                    <div class="severity-desc">Needs urgent attention</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-analyze" onclick="analyzeSymptoms()">
+            <span>🔬 Analyze My Symptoms</span>
+        </button>
+    </div>
+
+    <!-- Result -->
+    <div class="result-container" id="resultContainer" style="display:none">
+        <div class="result-card">
+            <div class="result-header">
+                <div class="result-icon">🏥</div>
+                <h2>Your Health Report</h2>
+            </div>
+            <div class="result-body">
+                <div class="condition-box">
+                    <span class="condition-label">Possible Condition</span>
+                    <span class="condition-name" id="resultCondition"></span>
+                </div>
+                <div class="info-row">
+                    <div class="info-item"><span class="info-icon">👤</span><span id="resultName"></span></div>
+                    <div class="info-item"><span class="info-icon">📅</span><span id="resultAge"></span></div>
+                    <div class="info-item"><span class="info-icon">⏱️</span><span id="resultDuration"></span></div>
+                    <div class="info-item"><span class="info-icon">⚡</span><span id="resultSeverity"></span></div>
+                </div>
+                <div class="symptoms-summary">
+                    <h4>Symptoms Reported:</h4>
+                    <div id="resultSymptoms" class="tag-list"></div>
+                </div>
+                <div class="recommendation-box">
+                    <h4>💡 Recommendation</h4>
+                    <p id="resultRecommendation"></p>
+                </div>
+                <div class="disclaimer">
+                    ⚠️ <strong>Disclaimer:</strong> This is for informational purposes only. Always consult a qualified healthcare professional for medical advice.
+                </div>
+            </div>
+            <button class="btn-reset" onclick="resetForm()">Check Again</button>
+        </div>
+    </div>
+</main>
+
+<!-- HISTORY PAGE -->
+<main id="page-history" class="page">
+    <div class="hero">
+        <h1 class="hero-title">Check History</h1>
+        <p class="hero-sub">Recent symptom checks (last 10)</p>
+    </div>
+    <div class="history-container" id="historyContainer">
+        <div class="loading">Loading history...</div>
+    </div>
+</main>
+
+<!-- STATS PAGE -->
+<main id="page-stats" class="page">
+    <div class="hero">
+        <h1 class="hero-title">Statistics</h1>
+        <p class="hero-sub">Overview of symptom checks</p>
+    </div>
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-number" id="totalChecks">0</div>
+            <div class="stat-label">Total Checks</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="recentChecks">0</div>
+            <div class="stat-label">Recent Checks</div>
+        </div>
+    </div>
+    <div class="card" style="margin-top:2rem">
+        <h3 style="margin-bottom:1rem">Top Conditions Detected</h3>
+        <div id="conditionChart"></div>
+    </div>
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
