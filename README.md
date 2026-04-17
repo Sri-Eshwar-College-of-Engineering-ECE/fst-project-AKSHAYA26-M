@@ -92,7 +92,7 @@ Backend starts at: **http://localhost:8080**
 
 ---
 
-## 🌐 API Endpoints
+
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -102,38 +102,5 @@ Backend starts at: **http://localhost:8080**
 | GET | /api/stats | Get statistics |
 | GET | /api/health | Health check |
 
----
 
-## 📤 How to Upload to GitHub
 
-### Step 1: Create a new repository on GitHub
-1. Go to https://github.com
-2. Click **"New Repository"**
-3. Name it: `smart-symptom-checker`
-4. Set to **Public**
-5. Do NOT initialize with README
-6. Click **"Create repository"**
-
-### Step 2: Push your code
-Open terminal in the `smart-symptom-checker` folder and run:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit - Smart Symptom Checker"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/smart-symptom-checker.git
-git push -u origin main
-```
-
-Replace `YOUR_USERNAME` with your GitHub username.
-
----
-
-## 🖥️ Demo Mode
-The frontend works **even without the backend** - it uses a built-in fallback analyzer. This is great for demos!
-
----
-
-## ⚠️ Disclaimer
-This app is for educational/demonstration purposes only. It is NOT a substitute for professional medical advice.
